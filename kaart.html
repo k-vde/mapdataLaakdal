@@ -72,22 +72,23 @@ function getLampIcon(color) {
   return iconCache[color];
 }
 
-
-L.marker([51.07544, 5.01445], {icon: lampIcon}).addTo(map);
-
 fetch("verlichtingspalen.geojson")
   .then(response => response.json())
   .then(data => {
     const geoLayer = L.geoJSON(data, {
-      // Optional styling for points
+
       pointToLayer: function (feature, latlng) {
-        const color = "red";
+        const color = (feature.properties.color || "black").toLowerCase();
 
-        return L.marker(latlng, {
-          icon: getLampIcon(color)  // reused if already created
-        },
+        const marker = L.marker(latlng, {
+          icon: getLampIcon(color)
+        });
 
-      // Optional: popup with properties
+        marker.myColor = color; // optional for cluster coloring later
+
+        return marker;
+      },
+
       onEachFeature: function (feature, layer) {
         if (feature.properties) {
           let popupContent = "";
@@ -97,15 +98,15 @@ fetch("verlichtingspalen.geojson")
           layer.bindPopup(popupContent);
         }
       }
+
     });
 
+    markers.addLayer(geoLayer);
+    map.addLayer(markers);
 
-    markers.addLayer(geoLayer);  // add to cluster
-    map.addLayer(markers);       // add cluster to map
-
-	  
   })
   .catch(err => console.error("Error loading GeoJSON:", err));
+
 		
 
 
