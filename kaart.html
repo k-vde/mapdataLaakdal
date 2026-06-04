@@ -42,7 +42,7 @@
 	}).addTo(map);
 
 
-fetch("verlichtingspalen.geojson")
+fetch("https://raw.githubusercontent.com/k-vde/mapdataLaakdal/refs/heads/main/verlichtingspalen.geojson")
   .then(response => response.json())
   .then(data => {
     L.geoJSON(data, {
