@@ -41,19 +41,34 @@
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [5.01445, 51.07544]
-    }
-};
-		L.geoJSON(geojsonFeature).addTo(map);
+fetch("verlichtingspalen.geojson")
+  .then(response => response.json())
+  .then(data => {
+    L.geoJSON(data, {
+      // Optional styling for points
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: "yellow",
+          color: "#333",
+          weight: 1,
+          fillOpacity: 0.9
+        });
+      },
+
+      // Optional: popup with properties
+      onEachFeature: function (feature, layer) {
+        if (feature.properties) {
+          let popupContent = "";
+          for (let key in feature.properties) {
+            popupContent += `<strong>${key}</strong>: ${feature.properties[key]}<br>`;
+          }
+          layer.bindPopup(popupContent);
+        }
+      }
+    }).addTo(map);
+  })
+  .catch(err => console.error("Error loading GeoJSON:", err));
 
 
 </script>
