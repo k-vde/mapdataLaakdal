@@ -42,7 +42,9 @@
 	}).addTo(map);
 
 var lampIcon = L.icon({
-    iconUrl: 'street_lamp_arm.svg'
+    iconUrl: 'street_lamp_arm.svg',
+	iconSize: [32, 32],
+	iconAnchor: [16, 32]
 });
 
 L.marker([51.07544, 5.01445], {icon: lampIcon}).addTo(map);
