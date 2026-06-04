@@ -41,12 +41,19 @@
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-
-
-fetch("https://raw.githubusercontent.com/k-vde/mapdataLaakdal/refs/heads/main/verlichtingspalen.geojson")
-  .then(res => res.json())
-  .then(data => L.geoJSON(data).addTo(map));
-
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [51.07544, 5.01445]
+    }
+};
+		L.geoJSON(geojsonFeature).addTo(map);
 
 
 </script>
