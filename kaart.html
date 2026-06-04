@@ -34,27 +34,43 @@
 	
 	<script>
 
-	const map = L.map('map').setView([51.505, -0.09], 13);
+	const map = L.map('map').setView([51.07544, 5.01445], 13);
 
 	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-	const marker = L.marker([51.5, -0.09]).addTo(map);
 
-	const circle = L.circle([51.508, -0.11], {
-		color: 'red',
-		fillColor: '#f03',
-		fillOpacity: 0.5,
-		radius: 5000
-	}).addTo(map);
+fetch("verlichtingspalen.geojson")
+  .then(response => response.json())
+  .then(data => {
+    L.geoJSON(data, {
+      // Optional styling for points
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: "yellow",
+          color: "#333",
+          weight: 1,
+          fillOpacity: 0.9
+        });
+      },
 
-	const polygon = L.polygon([
-		[51.509, -0.08],
-		[51.503, -0.06],
-		[51.51, -0.047]
-	]).addTo(map);
+      // Optional: popup with properties
+      onEachFeature: function (feature, layer) {
+        if (feature.properties) {
+          let popupContent = "";
+          for (let key in feature.properties) {
+            popupContent += `<strong>${key}</strong>: ${feature.properties[key]}<br>`;
+          }
+          layer.bindPopup(popupContent);
+        }
+      }
+    }).addTo(map);
+  })
+  .catch(err => console.error("Error loading GeoJSON:", err));
+
 
 
 </script>
