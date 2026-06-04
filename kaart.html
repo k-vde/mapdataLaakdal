@@ -78,7 +78,7 @@ fetch("verlichtingspalen.geojson")
     const geoLayer = L.geoJSON(data, {
 
       pointToLayer: function (feature, latlng) {
-        const color = (feature.properties.color || "black").toLowerCase();
+        const color = "red";
 
         const marker = L.marker(latlng, {
           icon: getLampIcon(color)
