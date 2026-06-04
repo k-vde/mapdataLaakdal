@@ -47,14 +47,14 @@
 	}).addTo(map);
 	
 	const markers = L.markerClusterGroup({
-  		disableClusteringAtZoom: 18   // ✅ clustering stops at zoom 18
+  		disableClusteringAtZoom: 18   //  clustering stops at zoom 18
 	});
 
 
-/ ✅ cache storage
+// cache storage
 const iconCache = {};
 
-// ✅ factory with caching
+// factory with caching
 function getLampIcon(color) {
   if (!iconCache[color]) {
     iconCache[color] = L.divIcon({
@@ -84,7 +84,7 @@ fetch("verlichtingspalen.geojson")
         const color = "red";
 
         return L.marker(latlng, {
-          icon: getLampIcon(color)  // ✅ reused if already created
+          icon: getLampIcon(color)  // reused if already created
         },
 
       // Optional: popup with properties
@@ -100,8 +100,8 @@ fetch("verlichtingspalen.geojson")
     });
 
 
-    markers.addLayer(geoLayer);  // ✅ add to cluster
-    map.addLayer(markers);       // ✅ add cluster to map
+    markers.addLayer(geoLayer);  // add to cluster
+    map.addLayer(markers);       // add cluster to map
 
 	  
   })
