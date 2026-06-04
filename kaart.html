@@ -51,28 +51,7 @@ L.marker([51.07544, 5.01445], {icon: lampIcon}).addTo(map);
 		
 
 
-fetch("verlichtingspalen.geojson")
-  .then(response => response.json())
-  .then(data => {
-    L.geoJSON(data, {
-      // Optional styling for points
-      pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, { icon: lampIcon });
-      },
 
-      // Optional: popup with properties
-      onEachFeature: function (feature, layer) {
-        if (feature.properties) {
-          let popupContent = "";
-          for (let key in feature.properties) {
-            popupContent += `<strong>${key}</strong>: ${feature.properties[key]}<br>`;
-          }
-          layer.bindPopup(popupContent);
-        }
-      }
-    }).addTo(map);
-  })
-  .catch(err => console.error("Error loading GeoJSON:", err));
 
 
 </script>
